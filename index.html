@@ -39,185 +39,127 @@
     color: var(--text-muted);
     margin: 0 0 20px;
   }
-  .platform-tabs{
-    display:flex;
-    gap:8px;
-    margin-bottom:20px;
-  }
+  
+  /* Tabs platforms & modes */
+  .tabs-container { margin-bottom: 20px; }
+  .platform-tabs { display:flex; gap:8px; margin-bottom: 12px; }
   .tab{
-    flex:1;
-    padding:10px 0;
-    text-align:center;
-    border-radius:10px;
-    border:1.5px solid var(--border);
-    background:#fff;
-    font-size:13px;
-    font-weight:600;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    transition: all .15s;
+    flex:1; padding:10px 0; text-align:center; border-radius:10px;
+    border:1.5px solid var(--border); background:#fff; font-size:13px;
+    font-weight:600; cursor:pointer; display:flex; align-items:center;
+    justify-content:center; gap:6px; transition: all .15s;
   }
+  /* Platform Colors */
   .tab.active.tiktok{ background:#000; color:#fff; border-color:#000; }
   .tab.active.instagram{ background: linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7); color:#fff; border-color:transparent; }
   .tab.active.facebook{ background:#1877f2; color:#fff; border-color:#1877f2; }
+  /* Theme Colors */
+  .tab.active.theme-light{ background:#f0f2f5; color:#000; border-color:#c0c0c0; }
+  .tab.active.theme-dark{ background:#242526; color:#fff; border-color:#242526; }
 
   .panel{
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 20px;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px; margin-bottom: 20px;
   }
   .field{ margin-bottom: 14px; }
   .field:last-child{ margin-bottom: 0; }
   label{
-    display:block;
-    font-size:12px;
-    font-weight:600;
-    color: var(--text-muted);
-    margin-bottom:5px;
+    display:block; font-size:12px; font-weight:600;
+    color: var(--text-muted); margin-bottom:5px;
   }
   input[type=text], textarea{
-    width:100%;
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:9px 11px;
-    font-size:14px;
-    font-family: inherit;
+    width:100%; border:1px solid var(--border); border-radius:8px;
+    padding:9px 11px; font-size:14px; font-family: inherit;
     background:#fafafa;
   }
-  textarea{ resize: vertical; min-height: 56px; }
+  textarea{ resize: none; overflow: hidden; min-height: 56px; } /* resize:none para Auto-height */
   .row{ display:flex; gap:10px; }
   .row .field{ flex:1; }
-  .checkbox-row{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-top: 4px;
-  }
+  .checkbox-row{ display:flex; align-items:center; gap:8px; margin-top: 4px; }
   .checkbox-row input{ width:16px; height:16px; }
   .checkbox-row label{ margin:0; font-size:13px; color: var(--text); font-weight:400; }
 
   .preview-area{
-    background: var(--bg);
-    border-radius: 14px;
-    padding: 0; /* Padding movido a export-frame para evitar espacio muerto extra en web */
-    display:flex;
-    justify-content:center;
-    margin-bottom: 16px;
+    background: var(--bg); border-radius: 14px; padding: 0; 
+    display:flex; justify-content:center; margin-bottom: 16px;
   }
-
-  /* Marco exportable con el padding correcto para el crop final */
   .export-frame {
-    padding: 24px;
-    display: inline-block;
-    max-width: 540px; /* Aumentado para soportar multilínea */
-    width: 100%;
+    padding: 24px; display: inline-block; max-width: 540px; width: 100%;
   }
-
-  /* Global text wrapper para Multilínea */
   .tk-text, .ig-text, .fb-text {
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    word-break: break-word;
+    white-space: pre-wrap; overflow-wrap: break-word; word-break: break-word;
   }
 
-  /* ---- Common Card Polish ---- */
-  .tk-comment, .ig-comment, .fb-comment {
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  }
+  /* ---- Card Polish ---- */
+  .tk-comment, .ig-comment, .fb-comment { border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
 
-  /* ---- TikTok comment card (Dark Mode) ---- */
-  .tk-comment{ display:flex; gap:10px; background:#000; padding:12px; font-family: "Roboto", -apple-system, sans-serif; border-radius: 10px;}
-  .tk-avatar{ width:38px; height:38px; border-radius:50%; flex-shrink:0; background:#333; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:14px; overflow:hidden; }
+  /* TikTok structure */
+  .tk-comment{ display:flex; gap:10px; padding:12px; font-family: "Roboto", -apple-system, sans-serif; }
+  .tk-avatar{ width:38px; height:38px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:14px; overflow:hidden; }
   .tk-avatar img{ width:100%; height:100%; object-fit:cover; }
   .tk-body{ flex:1; min-width:0; }
-  .tk-name{ font-size:12px; color:#86878b; font-weight:600; margin-bottom:4px; }
-  .tk-text{ font-size:14.5px; color:#fff; line-height:1.4; letter-spacing: -0.1px; }
+  .tk-name{ font-size:12px; font-weight:600; margin-bottom:4px; }
+  .tk-text{ font-size:14.5px; line-height:1.4; letter-spacing: -0.1px; }
   .tk-meta{ display:flex; align-items:center; gap:14px; margin-top:8px; }
-  .tk-time{ font-size:12px; color:#86878b; }
-  .tk-reply{ font-size:12px; color:#86878b; font-weight:600; }
+  .tk-time{ font-size:12px; }
+  .tk-reply{ font-size:12px; font-weight:600; }
   .tk-heart-group{ display:flex; align-items:center; gap:4px; margin-left:auto; }
   .tk-heart-group svg{ width:17px; height:17px; }
-  .tk-heart-group span{ font-size:12px; color:#86878b; }
-  .tk-dislike-icon svg{ width:16px; height:16px; }
+  .tk-heart-group span{ font-size:12px; }
 
-  /* ---- Instagram comment card ---- */
-  .ig-comment{ display:flex; gap:12px; background:#fff; padding:12px; font-family: -apple-system, sans-serif; border-radius: 10px;}
-  .ig-avatar{ width:34px; height:34px; border-radius:50%; flex-shrink:0; background:#ccc; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:12px; overflow:hidden; margin-top:2px; }
+  /* Instagram structure */
+  .ig-comment{ display:flex; gap:12px; padding:12px; font-family: -apple-system, sans-serif; }
+  .ig-avatar{ width:34px; height:34px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:12px; overflow:hidden; margin-top:2px; }
   .ig-avatar img{ width:100%; height:100%; object-fit:cover; }
   .ig-body{ flex:1; min-width:0; }
   .ig-header{ display:flex; align-items:baseline; gap:6px; margin-bottom: 2px;}
-  .ig-username{ font-size:14.5px; font-weight:600; color:#262626; }
-  .ig-time-top{ font-size:14.5px; color:#8e8e8e; }
+  .ig-username{ font-size:14.5px; font-weight:600; }
+  .ig-time-top{ font-size:14.5px; }
   .ig-verified{ display:inline-block; width:13px; height:13px; vertical-align:-2px; margin-left:-2px; }
-  .ig-text{ font-size:14.5px; font-weight:400; color:#262626; line-height:1.4; margin-top:2px; }
+  .ig-text{ font-size:14.5px; font-weight:400; line-height:1.4; margin-top:2px; }
   .ig-meta{ display:flex; align-items:center; gap:16px; margin-top:10px; }
-  .ig-reply{ font-size:12px; color:#8e8e8e; font-weight:600; }
+  .ig-reply{ font-size:12px; font-weight:600; }
   .ig-heart-col{ display:flex; flex-direction:column; align-items:center; gap:3px; padding-top:4px; }
   .ig-heart-col svg{ width:14px; height:14px; }
-  .ig-heart-col span{ font-size:12px; color:#8e8e8e; }
+  .ig-heart-col span{ font-size:12px; }
 
-  /* ---- Facebook comment card ---- */
-  .fb-comment{ display:flex; gap:8px; background:#fff; padding:12px; font-family: -apple-system, sans-serif; border-radius: 10px;}
-  .fb-avatar{ width:36px; height:36px; border-radius:50%; flex-shrink:0; background:#ccc; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:13px; overflow:hidden; }
+  /* Facebook structure */
+  .fb-comment{ display:flex; gap:8px; padding:12px; font-family: -apple-system, sans-serif; }
+  .fb-avatar{ width:36px; height:36px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:13px; overflow:hidden; }
   .fb-avatar img{ width:100%; height:100%; object-fit:cover; }
   .fb-body{ flex:1; min-width:0; }
-  .fb-bubble{ background:#f0f2f5; border-radius:18px; padding:8px 12px; display:inline-block; max-width:100%; }
+  .fb-bubble{ border-radius:18px; padding:8px 12px; display:inline-block; max-width:100%; }
   .fb-name-row{ display:flex; align-items:center; gap:5px; margin-bottom:2px; }
-  .fb-name{ font-size:13px; font-weight:600; color:#050505; }
-  .fb-time-inline{ font-size:12px; color:#65676b; }
-  .fb-text{ font-size:15px; font-weight:400; color:#050505; line-height:1.4; }
+  .fb-name{ font-size:13px; font-weight:600; }
+  .fb-time-inline{ font-size:12px; }
+  .fb-text{ font-size:15px; font-weight:400; line-height:1.4; }
   .fb-meta{ display:flex; align-items:center; gap:14px; margin-top:4px; padding-left:12px; }
-  .fb-action{ font-size:12px; color:#65676b; font-weight:600; }
+  .fb-action{ font-size:12px; font-weight:600; }
   .fb-reactions{ display:flex; align-items:center; gap:5px; margin-left:auto; }
   .fb-reaction-stack{ display:flex; align-items:center; }
-  .fb-reaction-emoji{ width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; background:#fff; border:1.5px solid #fff; margin-left:-5px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); }
+  .fb-reaction-emoji{ width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; margin-left:-5px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); }
   .fb-reaction-emoji:first-child{ margin-left:0; }
-  .fb-reaction-count{ font-size:12px; color:#65676b; font-weight:600; margin-left:4px; }
+  .fb-reaction-count{ font-size:12px; font-weight:600; margin-left:4px; }
 
-  .controls-bottom{
-    display:flex;
-    gap:10px;
-  }
+  .controls-bottom{ display:flex; gap:10px; }
   button.primary{
-    flex:1;
-    background: var(--text);
-    color:#fff;
-    border:none;
-    border-radius:10px;
-    padding:13px 0;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-    transition: opacity 0.2s;
+    flex:1; background: var(--text); color:#fff; border:none; border-radius:10px;
+    padding:13px 0; font-size:14px; font-weight:600; cursor:pointer; transition: opacity 0.2s;
   }
   button.primary:hover { opacity: 0.9; }
   button.primary:active{ transform: scale(0.98); }
   button.primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   
-  .hint{
-    font-size:12px;
-    color: var(--text-muted);
-    text-align:center;
-    margin-top:10px;
-  }
+  .hint{ font-size:12px; color: var(--text-muted); text-align:center; margin-top:10px; }
   .avatar-swatches{ display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; align-items:center; }
-  .swatch{
-    width:24px; height:24px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition: transform 0.1s;
-  }
+  .swatch{ width:24px; height:24px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition: transform 0.1s; }
   .swatch:hover { transform: scale(1.1); }
   .swatch.selected{ border-color: var(--text); }
   .upload-btn{
     width:24px; height:24px; border-radius:50%; cursor:pointer;
     border:1.5px dashed #9a9a9a; background:#fafafa;
     display:flex; align-items:center; justify-content:center;
-    font-size:14px; color:#777; flex-shrink:0;
-    transition: all 0.2s;
+    font-size:14px; color:#777; flex-shrink:0; transition: all 0.2s;
   }
   .photo-row{ display:flex; align-items:center; gap:10px; margin-top:8px; padding: 8px; border-radius: 8px; border: 1.5px dashed transparent; transition: all 0.2s; }
   .photo-row.dragover { border-color: var(--accent) !important; background: #e8f0fe !important; }
@@ -242,9 +184,15 @@
   <h1>Generador de comentarios</h1>
   <p class="sub">Crea un comentario falso estilo TikTok, Instagram o Facebook para tus ediciones</p>
 
-  <div class="platform-tabs" style="margin-bottom:14px;">
-    <div class="tab active" data-mode="single" id="mode-tab-single">Individual</div>
-    <div class="tab" data-mode="batch" id="mode-tab-batch">Lote (varias)</div>
+  <div class="tabs-container">
+    <div class="platform-tabs">
+      <div class="tab active" data-mode="single" id="mode-tab-single">Individual</div>
+      <div class="tab" data-mode="batch" id="mode-tab-batch">Lote (varias)</div>
+    </div>
+    <div class="platform-tabs" style="margin-bottom:0;">
+      <div class="tab active theme-light" data-theme="light" id="theme-light">☀️ Modo Claro</div>
+      <div class="tab theme-dark" data-theme="dark" id="theme-dark">🌙 Modo Oscuro</div>
+    </div>
   </div>
 
   <div id="mode-single">
@@ -297,7 +245,7 @@ multilínea ahora soportado 🎉</textarea>
       </div>
       <div class="field">
         <label for="inp-likes">Likes</label>
-        <input type="text" id="inp-likes" value="348">
+        <input type="text" id="inp-likes" value="1500">
       </div>
     </div>
 
@@ -374,7 +322,7 @@ esto es oro puro</textarea>
           <div style="display:flex; gap:6px; align-items:center;">
             <input type="text" id="batch-likes-min" value="100" style="text-align:center;">
             <span style="color:var(--text-muted);">–</span>
-            <input type="text" id="batch-likes-max" value="500" style="text-align:center;">
+            <input type="text" id="batch-likes-max" value="15000" style="text-align:center;">
           </div>
         </div>
         <div class="field">
@@ -465,40 +413,50 @@ function randomUsername(){
 function buildUsername(){
   const w1 = NAME_WORDS[Math.floor(Math.random()*NAME_WORDS.length)];
   const pattern = Math.floor(Math.random()*6);
-
-  if(pattern === 0){
-    const n = Math.floor(Math.random()*9000)+10;
-    return `${w1}${n}`;
-  }
-  if(pattern === 1){
-    const w2 = SUFFIX_WORDS[Math.floor(Math.random()*SUFFIX_WORDS.length)];
-    return `${w1}.${w2}`;
-  }
-  if(pattern === 2){
-    return `_${w1}_`;
-  }
+  if(pattern === 0){ return `${w1}${Math.floor(Math.random()*9000)+10}`; }
+  if(pattern === 1){ return `${w1}.${SUFFIX_WORDS[Math.floor(Math.random()*SUFFIX_WORDS.length)]}`; }
+  if(pattern === 2){ return `_${w1}_`; }
   if(pattern === 3){
     const w2 = NAME_WORDS[Math.floor(Math.random()*NAME_WORDS.length)];
     if(w2 === w1) return buildUsername();
     return `${w1}_${w2}`;
   }
-  if(pattern === 4){
-    const n = Math.floor(Math.random()*99)+1;
-    return `${w1}.${n}`;
-  }
+  if(pattern === 4){ return `${w1}.${Math.floor(Math.random()*99)+1}`; }
   const w2 = SUFFIX_WORDS[Math.floor(Math.random()*SUFFIX_WORDS.length)];
   const n = Math.floor(Math.random()*99)+1;
   const capitalized = w1.charAt(0).toUpperCase() + w1.slice(1);
   return `${capitalized}${w2.charAt(0).toUpperCase()+w2.slice(1)}${n}`;
 }
 
+// ----------------------------------------------------
+// Utilidad: Formateo de números (1.5K, 1M, etc)
+// ----------------------------------------------------
+function formatLikes(val) {
+  if (!val) return '0';
+  if (/[km]/i.test(val)) return val; // Si ya tiene letras, lo respetamos
+  const num = parseInt(val.replace(/,/g, ''), 10);
+  if (isNaN(num)) return val;
+  if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  return num.toString();
+}
+
+// ----------------------------------------------------
+// Utilidad: Auto-height Textarea
+// ----------------------------------------------------
+function autoResizeTextarea(el) {
+  el.style.height = 'auto';
+  el.style.height = (el.scrollHeight) + 'px';
+}
+
 let state = {
   platform: 'tiktok',
+  theme: 'light', // Estado global de tema
   username: 'usuario.random22',
   verified: false,
   comment: 'jajaja esto no tiene precio\nmultilínea ahora soportado 🎉',
   time: '2h',
-  likes: '348',
+  likes: '1500',
   avatarColor: AVATAR_COLORS[0],
   photoDataUrl: null,
   tkHeartRed: false,
@@ -514,42 +472,40 @@ let state = {
 
 function avatarHTML(data){
   data = data || state;
-  if(data.photoDataUrl){
-    return `<img src="${data.photoDataUrl}" alt="">`;
-  }
+  if(data.photoDataUrl){ return `<img src="${data.photoDataUrl}" alt="">`; }
   return initials(data.username);
 }
 
-function initials(name){
-  const clean = name.replace(/^@/,'').trim();
-  return clean.slice(0,2).toUpperCase();
-}
-
-const verifiedBadgeSVG = `<svg viewBox="0 0 24 24" class="ig-verified" aria-hidden="true"><path fill="#3897f0" d="M12 2l2.4 1.4 2.7-.4 1.4 2.4 2.4 1.4-.4 2.7 1.4 2.4-1.4 2.4.4 2.7-2.4 1.4-1.4 2.4-2.7-.4L12 22l-2.4-1.4-2.7.4-1.4-2.4-2.4-1.4.4-2.7L2.1 12l1.4-2.4-.4-2.7 2.4-1.4 1.4-2.4 2.7.4z"/><path fill="#fff" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="#fff" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+function initials(name){ return name.replace(/^@/,'').trim().slice(0,2).toUpperCase(); }
 
 function renderTikTok(data){
   data = data || state;
-  const v = data.verified ? `<svg viewBox="0 0 24 24" style="width:13px;height:13px;vertical-align:-2px;margin-left:3px" aria-hidden="true"><path fill="#20D5EC" d="M12 2l2.4 1.4 2.7-.4 1.4 2.4 2.4 1.4-.4 2.7 1.4 2.4-1.4 2.4.4 2.7-2.4 1.4-1.4 2.4-2.7-.4L12 22l-2.4-1.4-2.7.4-1.4-2.4-2.4-1.4.4-2.7L2.1 12l1.4-2.4-.4-2.7 2.4-1.4 1.4-2.4 2.7.4z"/><path fill="#000" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="#000" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>` : '';
-
+  const isDark = data.theme === 'dark';
+  const bg = isDark ? '#000' : '#fff';
+  const textColor = isDark ? '#fff' : '#161823';
+  const metaColor = '#86878b';
+  const verifiedBadgeSVG = `<svg viewBox="0 0 24 24" style="width:13px;height:13px;vertical-align:-2px;margin-left:3px" aria-hidden="true"><path fill="#20D5EC" d="M12 2l2.4 1.4 2.7-.4 1.4 2.4 2.4 1.4-.4 2.7 1.4 2.4-1.4 2.4.4 2.7-2.4 1.4-1.4 2.4-2.7-.4L12 22l-2.4-1.4-2.7.4-1.4-2.4-2.4-1.4.4-2.7L2.1 12l1.4-2.4-.4-2.7 2.4-1.4 1.4-2.4 2.7.4z"/><path fill="${bg}" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="${bg}" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  
+  const v = data.verified ? verifiedBadgeSVG : '';
   const heartFill = data.tkHeartRed ? '#fe2c55' : 'none';
-  const heartStroke = data.tkHeartRed ? '#fe2c55' : '#86878b';
+  const heartStroke = data.tkHeartRed ? '#fe2c55' : metaColor;
   const heartPath = 'M12 21.5C12 21.5 2.5 15.8 2.5 9.3C2.5 5.8 5 3.3 8 3.3C9.8 3.3 11 4.3 12 5.8C13 4.3 14.2 3.3 16 3.3C19 3.3 21.5 5.8 21.5 9.3C21.5 15.8 12 21.5 12 21.5Z';
 
   return `
-  <div class="tk-comment">
+  <div class="tk-comment" style="background:${bg};">
     <div class="tk-avatar" style="background:${data.photoDataUrl ? 'transparent' : data.avatarColor}">${avatarHTML(data)}</div>
     <div class="tk-body">
-      <div class="tk-name">${escapeHTML(data.username)}${v}</div>
-      <div class="tk-text">${escapeHTML(data.comment)}</div>
-      <div class="tk-meta">
+      <div class="tk-name" style="color:${metaColor};">${escapeHTML(data.username)}${v}</div>
+      <div class="tk-text" style="color:${textColor};">${escapeHTML(data.comment)}</div>
+      <div class="tk-meta" style="color:${metaColor};">
         <span class="tk-time">${escapeHTML(data.time)}</span>
         <span class="tk-reply">Responder</span>
         <span class="tk-heart-group">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="${heartFill}" stroke="${heartStroke}" stroke-width="1.7" d="${heartPath}"/></svg>
-          <span>${escapeHTML(data.likes)}</span>
+          <span style="color:${metaColor};">${formatLikes(data.likes)}</span>
         </span>
         <span class="tk-dislike-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true" style="transform: scaleY(-1);"><path fill="none" stroke="#86878b" stroke-width="1.7" d="M7 10v9a1 1 0 001 1h7l3.5-7.5V11a1.5 1.5 0 00-1.5-1.5h-4l.6-3a1.8 1.8 0 00-1.8-2.1c-.4 0-.7.2-.9.5L8 9H7z"/><path fill="none" stroke="#86878b" stroke-width="1.7" d="M7 10H4.5A1.5 1.5 0 003 11.5V18a1.5 1.5 0 001.5 1.5H7"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="transform: scaleY(-1);"><path fill="none" stroke="${metaColor}" stroke-width="1.7" d="M7 10v9a1 1 0 001 1h7l3.5-7.5V11a1.5 1.5 0 00-1.5-1.5h-4l.6-3a1.8 1.8 0 00-1.8-2.1c-.4 0-.7.2-.9.5L8 9H7z"/><path fill="none" stroke="${metaColor}" stroke-width="1.7" d="M7 10H4.5A1.5 1.5 0 003 11.5V18a1.5 1.5 0 001.5 1.5H7"/></svg>
         </span>
       </div>
     </div>
@@ -558,60 +514,67 @@ function renderTikTok(data){
 
 function renderInstagram(data){
   data = data || state;
+  const isDark = data.theme === 'dark';
+  const bg = isDark ? '#000' : '#fff';
+  const textColor = isDark ? '#fff' : '#262626';
+  const metaColor = isDark ? '#a8a8a8' : '#8e8e8e';
+  const verifiedBadgeSVG = `<svg viewBox="0 0 24 24" class="ig-verified" aria-hidden="true"><path fill="#3897f0" d="M12 2l2.4 1.4 2.7-.4 1.4 2.4 2.4 1.4-.4 2.7 1.4 2.4-1.4 2.4.4 2.7-2.4 1.4-1.4 2.4-2.7-.4L12 22l-2.4-1.4-2.7.4-1.4-2.4-2.4-1.4.4-2.7L2.1 12l1.4-2.4-.4-2.7 2.4-1.4 1.4-2.4 2.7.4z"/><path fill="${bg}" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="${bg}" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
   const v = data.verified ? verifiedBadgeSVG : '';
   return `
-  <div class="ig-comment">
+  <div class="ig-comment" style="background:${bg};">
     <div class="ig-avatar" style="background:${data.photoDataUrl ? 'transparent' : data.avatarColor}">${avatarHTML(data)}</div>
     <div class="ig-body">
       <div class="ig-header">
-        <span class="ig-username">${escapeHTML(data.username)}</span>${v}
-        <span class="ig-time-top">${escapeHTML(data.time)}</span>
+        <span class="ig-username" style="color:${textColor};">${escapeHTML(data.username)}</span>${v}
+        <span class="ig-time-top" style="color:${metaColor};">${escapeHTML(data.time)}</span>
       </div>
-      <div class="ig-text">${escapeHTML(data.comment)}</div>
-      <div class="ig-meta">
+      <div class="ig-text" style="color:${textColor};">${escapeHTML(data.comment)}</div>
+      <div class="ig-meta" style="color:${metaColor};">
         <span class="ig-reply">Responder</span>
       </div>
     </div>
-    <div class="ig-heart-col">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="#8e8e8e" stroke-width="1.7" d="M12.1 8.6c-1.1-2.4-3.4-3.3-5.4-2.5-2.1.8-3.3 3.1-2.6 5.4.9 3 4.3 5.6 8 8 3.7-2.4 7.1-5 8-8 .7-2.3-.5-4.6-2.6-5.4-2-.8-4.3.1-5.4 2.5z"/></svg>
-      <span>${escapeHTML(data.likes)}</span>
+    <div class="ig-heart-col" style="color:${metaColor};">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="${metaColor}" stroke-width="1.7" d="M12.1 8.6c-1.1-2.4-3.4-3.3-5.4-2.5-2.1.8-3.3 3.1-2.6 5.4.9 3 4.3 5.6 8 8 3.7-2.4 7.1-5 8-8 .7-2.3-.5-4.6-2.6-5.4-2-.8-4.3.1-5.4 2.5z"/></svg>
+      <span>${formatLikes(data.likes)}</span>
     </div>
   </div>`;
 }
 
-const REACTION_EMOJI = {
-  like: '👍',
-  love: '❤️',
-  haha: '😂',
-  wow: '😮',
-  sad: '😢',
-  angry: '😠'
-};
+const REACTION_EMOJI = { like: '👍', love: '❤️', haha: '😂', wow: '😮', sad: '😢', angry: '😠' };
 
 function renderFacebook(data){
   data = data || state;
-  const v = data.verified ? `<svg viewBox="0 0 24 24" style="width:13px;height:13px;vertical-align:-2px;margin-left:3px" aria-hidden="true"><path fill="#1877f2" d="M12 2l2.4 1.4 2.7-.4 1.4 2.4 2.4 1.4-.4 2.7 1.4 2.4-1.4 2.4.4 2.7-2.4 1.4-1.4 2.4-2.7-.4L12 22l-2.4-1.4-2.7.4-1.4-2.4-2.4-1.4.4-2.7L2.1 12l1.4-2.4-.4-2.7 2.4-1.4 1.4-2.4 2.7.4z"/><path fill="#fff" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="#fff" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>` : '';
+  const isDark = data.theme === 'dark';
+  const bg = isDark ? '#242526' : '#fff';
+  const bubbleBg = isDark ? '#3a3b3c' : '#f0f2f5';
+  const textColor = isDark ? '#e4e6eb' : '#050505';
+  const metaColor = isDark ? '#b0b3b8' : '#65676b';
+  const badgeStroke = isDark ? bubbleBg : '#fff'; // Ajuste del borde según fondo de la burbuja
+
+  const verifiedBadgeSVG = `<svg viewBox="0 0 24 24" style="width:13px;height:13px;vertical-align:-2px;margin-left:3px" aria-hidden="true"><path fill="#1877f2" d="M12 2l2.4 1.4 2.7-.4 1.4 2.4 2.4 1.4-.4 2.7 1.4 2.4-1.4 2.4.4 2.7-2.4 1.4-1.4 2.4-2.7-.4L12 22l-2.4-1.4-2.7.4-1.4-2.4-2.4-1.4.4-2.7L2.1 12l1.4-2.4-.4-2.7 2.4-1.4 1.4-2.4 2.7.4z"/><path fill="${badgeStroke}" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="${badgeStroke}" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
   const activeReactions = (data.fbReactions || []).filter(r => r.checked);
-  const reactionStack = activeReactions.map(r => `<span class="fb-reaction-emoji">${REACTION_EMOJI[r.key]}</span>`).join('');
+  // Color del borde de la reacción debe ser igual al fondo principal de la card para ocultarlo
+  const reactionStack = activeReactions.map(r => `<span class="fb-reaction-emoji" style="background:${bg}; border-color:${bg}">${REACTION_EMOJI[r.key]}</span>`).join('');
 
   return `
-  <div class="fb-comment">
+  <div class="fb-comment" style="background:${bg};">
     <div class="fb-avatar" style="background:${data.photoDataUrl ? 'transparent' : data.avatarColor}">${avatarHTML(data)}</div>
     <div class="fb-body">
-      <div class="fb-bubble">
+      <div class="fb-bubble" style="background:${bubbleBg};">
         <div class="fb-name-row">
-          <span class="fb-name">${escapeHTML(data.username)}</span>${v}
+          <span class="fb-name" style="color:${textColor};">${escapeHTML(data.username)}</span>${data.verified ? verifiedBadgeSVG : ''}
         </div>
-        <div class="fb-text">${escapeHTML(data.comment)}</div>
+        <div class="fb-text" style="color:${textColor};">${escapeHTML(data.comment)}</div>
       </div>
-      <div class="fb-meta">
+      <div class="fb-meta" style="color:${metaColor};">
         <span class="fb-time-inline" style="margin-right: 6px;">${escapeHTML(data.time)}</span>
         <span class="fb-action">Me gusta</span>
         <span class="fb-action">Responder</span>
         <div class="fb-reactions">
           <div class="fb-reaction-stack">${reactionStack}</div>
-          <span class="fb-reaction-count">${escapeHTML(data.likes)}</span>
+          <span class="fb-reaction-count" style="color:${metaColor};">${formatLikes(data.likes)}</span>
         </div>
       </div>
     </div>
@@ -619,9 +582,7 @@ function renderFacebook(data){
 }
 
 function escapeHTML(str){
-  const d = document.createElement('div');
-  d.textContent = str;
-  return d.innerHTML;
+  const d = document.createElement('div'); d.textContent = str; return d.innerHTML;
 }
 
 function render(){
@@ -631,14 +592,11 @@ function render(){
   else if(state.platform === 'instagram') html = renderInstagram();
   else html = renderFacebook();
 
-  // Envolver en export-frame para Auto-height Canvas Cropping con 24px de padding natural
-  target.innerHTML = `<div class="export-frame" id="export-frame-inner">${html}</div>`;
+  target.innerHTML = `<div class="export-frame" id="export-frame-inner" style="background:transparent;">${html}</div>`;
 }
 
 function setPlatform(p){
   state.platform = p;
-  document.querySelectorAll('.tab[data-mode="single"]').forEach(t => t.classList.toggle('active', t.dataset.platform === p));
-  // Limpiar todas las clases activas en los tabs, luego añadir a los correspondientes
   document.querySelectorAll('#mode-single .tab').forEach(t => {
     t.classList.remove('active', 'tiktok', 'instagram', 'facebook');
     if(t.dataset.platform === p) {
@@ -655,28 +613,49 @@ function setPlatform(p){
   render();
 }
 
+function setTheme(t) {
+  state.theme = t;
+  document.getElementById('theme-light').classList.toggle('active', t === 'light');
+  document.getElementById('theme-dark').classList.toggle('active', t === 'dark');
+  render();
+}
+
 document.getElementById('tab-tiktok').onclick = () => setPlatform('tiktok');
 document.getElementById('tab-instagram').onclick = () => setPlatform('instagram');
 document.getElementById('tab-facebook').onclick = () => setPlatform('facebook');
 
+document.getElementById('theme-light').onclick = () => setTheme('light');
+document.getElementById('theme-dark').onclick = () => setTheme('dark');
+
 document.getElementById('inp-username').addEventListener('input', e => { state.username = e.target.value || 'usuario'; render(); });
 document.getElementById('btn-random-username').addEventListener('click', () => {
-  const newName = randomUsername();
-  state.username = newName;
-  document.getElementById('inp-username').value = newName;
-  render();
+  const newName = randomUsername(); state.username = newName; document.getElementById('inp-username').value = newName; render();
 });
 document.getElementById('inp-verified').addEventListener('change', e => { state.verified = e.target.checked; render(); });
 document.getElementById('inp-heart-red').addEventListener('change', e => { state.tkHeartRed = e.target.checked; render(); });
-document.getElementById('inp-comment').addEventListener('input', e => { state.comment = e.target.value; render(); });
+
+// Inicializar y escuchar eventos de Auto-height en textareas
+const inpComment = document.getElementById('inp-comment');
+inpComment.addEventListener('input', e => {
+  autoResizeTextarea(e.target);
+  state.comment = e.target.value; 
+  render(); 
+});
+// Ajuste inicial de altura
+setTimeout(() => autoResizeTextarea(inpComment), 10);
+
+const batchComments = document.getElementById('batch-comments');
+batchComments.addEventListener('input', e => autoResizeTextarea(e.target));
+setTimeout(() => autoResizeTextarea(batchComments), 10);
+
+
 document.getElementById('inp-time').addEventListener('input', e => { state.time = e.target.value; render(); });
 document.getElementById('inp-likes').addEventListener('input', e => { state.likes = e.target.value; render(); });
 
-/* Manejo Centralizado de Imágenes (Input, D&D, Paste) */
+/* Manejo de Imágenes */
 function handleImageFile(file, isBatch = false) {
   if(!file || !file.type.startsWith('image/')) return;
   const reader = new FileReader();
-  
   reader.onload = ev => {
     if(!isBatch) {
       state.photoDataUrl = ev.target.result;
@@ -686,51 +665,25 @@ function handleImageFile(file, isBatch = false) {
       render();
     } else {
       batchPhotos.push(ev.target.result);
-      document.getElementById('batch-photos-count').textContent = `${batchPhotos.length} foto${batchPhotos.length === 1 ? '' : 's'} cargada${batchPhotos.length === 1 ? '' : 's'}`;
+      document.getElementById('batch-photos-count').textContent = `${batchPhotos.length} foto${batchPhotos.length === 1 ? '' : 's'}`;
     }
   };
-  reader.onerror = () => {
-    alert("Error al leer el archivo de imagen. Inténtalo de nuevo.");
-  };
+  reader.onerror = () => alert("Error al leer la imagen.");
   reader.readAsDataURL(file);
 }
 
-// 1. Manejo por Input normal
-document.getElementById('inp-photo').addEventListener('change', e => {
-  handleImageFile(e.target.files[0], false);
-});
+document.getElementById('inp-photo').addEventListener('change', e => handleImageFile(e.target.files[0], false));
 
-// 2. Manejo por Drag & Drop
 function setupDragAndDrop(dropzoneId, isBatch) {
   const dropzone = document.getElementById(dropzoneId);
   if(!dropzone) return;
-
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropzone.addEventListener(eventName, preventDefaults, false);
-  });
-
-  function preventDefaults(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dropzone.addEventListener(eventName, () => dropzone.classList.add('dragover'), false);
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover'), false);
-  });
-
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => dropzone.addEventListener(eventName, e => {e.preventDefault(); e.stopPropagation();}, false));
+  ['dragenter', 'dragover'].forEach(eventName => dropzone.addEventListener(eventName, () => dropzone.classList.add('dragover'), false));
+  ['dragleave', 'drop'].forEach(eventName => dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover'), false));
   dropzone.addEventListener('drop', e => {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    if(files.length > 0) {
-      if(isBatch) {
-        Array.from(files).forEach(f => handleImageFile(f, true));
-      } else {
-        handleImageFile(files[0], false);
-      }
+    if(e.dataTransfer.files.length > 0) {
+      if(isBatch) Array.from(e.dataTransfer.files).forEach(f => handleImageFile(f, true));
+      else handleImageFile(e.dataTransfer.files[0], false);
     }
   }, false);
 }
@@ -738,29 +691,22 @@ function setupDragAndDrop(dropzoneId, isBatch) {
 setupDragAndDrop('photo-dropzone', false);
 setupDragAndDrop('batch-photo-dropzone', true);
 
-// 3. Manejo por Clipboard Paste (Ctrl+V global)
 window.addEventListener('paste', e => {
-  // Ignorar paste si el usuario está escribiendo texto en un textarea o input de texto, excepto si es imagen pura
-  const activeElement = document.activeElement;
-  const isTextInput = activeElement.tagName === 'TEXTAREA' || (activeElement.tagName === 'INPUT' && activeElement.type === 'text');
-  
+  const active = document.activeElement;
+  const isText = active.tagName === 'TEXTAREA' || (active.tagName === 'INPUT' && active.type === 'text');
   if (e.clipboardData && e.clipboardData.items) {
     for (let i = 0; i < e.clipboardData.items.length; i++) {
       if (e.clipboardData.items[i].type.indexOf('image') !== -1) {
-        if(isTextInput) e.preventDefault(); // prevenir pegar texto raro de la imagen
-        const blob = e.clipboardData.items[i].getAsFile();
-        const isBatchMode = document.getElementById('mode-tab-batch').classList.contains('active');
-        handleImageFile(blob, isBatchMode);
+        if(isText) e.preventDefault();
+        handleImageFile(e.clipboardData.items[i].getAsFile(), document.getElementById('mode-tab-batch').classList.contains('active'));
         break;
       }
     }
   }
 });
 
-
 document.getElementById('btn-remove-photo').addEventListener('click', () => {
-  state.photoDataUrl = null;
-  document.getElementById('inp-photo').value = '';
+  state.photoDataUrl = null; document.getElementById('inp-photo').value = '';
   document.getElementById('photo-preview-circle').style.display = 'none';
   document.getElementById('btn-remove-photo').style.display = 'none';
   render();
@@ -769,62 +715,33 @@ document.getElementById('btn-remove-photo').addEventListener('click', () => {
 const swatchWrap = document.getElementById('avatar-swatches');
 AVATAR_COLORS.forEach((c, i) => {
   const el = document.createElement('div');
-  el.className = 'swatch' + (i === 0 ? ' selected' : '');
-  el.style.background = c;
+  el.className = 'swatch' + (i === 0 ? ' selected' : ''); el.style.background = c;
   el.onclick = () => {
     state.avatarColor = c;
     document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
-    el.classList.add('selected');
-    render();
+    el.classList.add('selected'); render();
   };
   swatchWrap.appendChild(el);
 });
 
 const reactionsWrap = document.getElementById('reactions-checklist');
 state.fbReactions.forEach((reaction, idx) => {
-  const row = document.createElement('div');
-  row.className = 'checkbox-row';
-  row.style.marginTop = idx === 0 ? '0' : '6px';
-  const cb = document.createElement('input');
-  cb.type = 'checkbox';
-  cb.checked = reaction.checked;
-  cb.id = `inp-reaction-${reaction.key}`;
-  cb.addEventListener('change', e => {
-    state.fbReactions[idx].checked = e.target.checked;
-    render();
-  });
-  const lbl = document.createElement('label');
-  lbl.htmlFor = cb.id;
-  lbl.textContent = `${REACTION_EMOJI[reaction.key]} ${reaction.label}`;
-  row.appendChild(cb);
-  row.appendChild(lbl);
-  reactionsWrap.appendChild(row);
+  const row = document.createElement('div'); row.className = 'checkbox-row'; row.style.marginTop = idx === 0 ? '0' : '6px';
+  const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = reaction.checked; cb.id = `inp-reaction-${reaction.key}`;
+  cb.addEventListener('change', e => { state.fbReactions[idx].checked = e.target.checked; render(); });
+  const lbl = document.createElement('label'); lbl.htmlFor = cb.id; lbl.textContent = `${REACTION_EMOJI[reaction.key]} ${reaction.label}`;
+  row.appendChild(cb); row.appendChild(lbl); reactionsWrap.appendChild(row);
 });
 
 document.getElementById('btn-download').onclick = async () => {
-  // Capturar solo el frame exportable para ajuste de crop perfecto
   const target = document.getElementById('export-frame-inner');
   const btn = document.getElementById('btn-download');
-  const originalText = btn.textContent;
-  btn.textContent = 'Generando...';
-  btn.disabled = true;
-
+  const originalText = btn.textContent; btn.textContent = 'Generando...'; btn.disabled = true;
   try {
-    const canvas = await html2canvas(target, {
-      backgroundColor: null,
-      scale: 3 // Maxima calidad individual
-    });
-    const link = document.createElement('a');
-    link.download = `comentario-${state.platform}-${Date.now()}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  } catch(err) {
-    console.error(err);
-    alert('Ocurrió un error al generar la imagen.');
-  } finally {
-    btn.textContent = originalText;
-    btn.disabled = false;
-  }
+    const canvas = await html2canvas(target, { backgroundColor: null, scale: 3 });
+    const link = document.createElement('a'); link.download = `comentario-${state.platform}-${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png'); link.click();
+  } catch(err) { alert('Ocurrió un error al generar la imagen.'); } finally { btn.textContent = originalText; btn.disabled = false; }
 };
 
 /* ============ MODO LOTE ============ */
@@ -847,13 +764,8 @@ function setBatchPlatform(p){
   ['tiktok','instagram','facebook'].forEach(pl => {
     const tab = document.getElementById(`batch-tab-${pl}`);
     tab.classList.remove('active', 'tiktok', 'instagram', 'facebook');
-    if(pl === p) {
-      tab.classList.add('active', p);
-    } else {
-      if(pl === 'tiktok') tab.classList.add('tiktok');
-      if(pl === 'instagram') tab.classList.add('instagram');
-      if(pl === 'facebook') tab.classList.add('facebook');
-    }
+    if(pl === p) { tab.classList.add('active', p); } 
+    else { if(pl === 'tiktok') tab.classList.add('tiktok'); if(pl === 'instagram') tab.classList.add('instagram'); if(pl === 'facebook') tab.classList.add('facebook'); }
   });
   document.getElementById('batch-reactions-wrap').style.display = (p === 'facebook') ? 'block' : 'none';
 }
@@ -868,29 +780,17 @@ let batchReactionChecks = { like:true, love:true, haha:true, wow:false, sad:fals
 
 const batchReactionsWrap = document.getElementById('batch-reactions-checklist');
 BATCH_REACTION_KEYS.forEach((key, idx) => {
-  const row = document.createElement('div');
-  row.className = 'checkbox-row';
-  row.style.marginTop = idx === 0 ? '0' : '6px';
-  const cb = document.createElement('input');
-  cb.type = 'checkbox';
-  cb.checked = batchReactionChecks[key];
-  cb.id = `batch-reaction-${key}`;
+  const row = document.createElement('div'); row.className = 'checkbox-row'; row.style.marginTop = idx === 0 ? '0' : '6px';
+  const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = batchReactionChecks[key]; cb.id = `batch-reaction-${key}`;
   cb.addEventListener('change', e => { batchReactionChecks[key] = e.target.checked; });
-  const lbl = document.createElement('label');
-  lbl.htmlFor = cb.id;
-  lbl.textContent = `${REACTION_EMOJI[key]} ${BATCH_REACTION_LABELS[key]}`;
-  row.appendChild(cb);
-  row.appendChild(lbl);
-  batchReactionsWrap.appendChild(row);
+  const lbl = document.createElement('label'); lbl.htmlFor = cb.id; lbl.textContent = `${REACTION_EMOJI[key]} ${BATCH_REACTION_LABELS[key]}`;
+  row.appendChild(cb); row.appendChild(lbl); batchReactionsWrap.appendChild(row);
 });
 
-document.getElementById('batch-photos').addEventListener('change', e => {
-  Array.from(e.target.files).forEach(f => handleImageFile(f, true));
-});
+document.getElementById('batch-photos').addEventListener('change', e => { Array.from(e.target.files).forEach(f => handleImageFile(f, true)); });
 
 function randomInt(min, max){
-  min = parseInt(min, 10) || 0;
-  max = parseInt(max, 10) || min;
+  min = parseInt(min, 10) || 0; max = parseInt(max, 10) || min;
   if(max < min){ const t = min; min = max; max = t; }
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -898,28 +798,17 @@ function randomInt(min, max){
 function shuffleArray(arr){
   const a = arr.slice();
   for(let i = a.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+    const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
 
 async function generateBatch(){
-  // Parser con soporte multiline, dividiendo estrictamente por líneas con '---'
   const rawText = document.getElementById('batch-comments').value;
   const commentsRaw = rawText.split(/\n\s*---\s*\n/g).map(s => s.trim()).filter(Boolean);
   
-  if(commentsRaw.length === 0){
-    alert('Agrega al menos un comentario válido separado por ---.');
-    return;
-  }
-
-  // Soft Limit > 50 confirm
-  if(commentsRaw.length > 50) {
-    if(!confirm(`Estás a punto de generar ${commentsRaw.length} comentarios. Esto puede tardar bastante dependiendo de tu equipo. ¿Continuar?`)){
-      return;
-    }
-  }
+  if(commentsRaw.length === 0){ alert('Agrega al menos un comentario válido separado por ---.'); return; }
+  if(commentsRaw.length > 50) { if(!confirm(`Estás a punto de generar ${commentsRaw.length} comentarios. ¿Continuar?`)){ return; } }
 
   const usernamesRaw = document.getElementById('batch-usernames').value.split('\n').map(s => s.trim()).filter(Boolean);
   const likesMin = document.getElementById('batch-likes-min').value;
@@ -936,40 +825,25 @@ async function generateBatch(){
   const percentText = document.getElementById('batch-progress-percent');
   const statusText = document.getElementById('batch-progress-status');
   const fillBar = document.getElementById('batch-progress-fill');
-  
   const gridEl = document.getElementById('batch-preview-grid');
   const downloadWrap = document.getElementById('batch-download-wrap');
   const btnGenerate = document.getElementById('btn-batch-generate');
   
-  gridEl.innerHTML = '';
-  downloadWrap.style.display = 'none';
-  progressEl.style.display = 'block';
-  btnGenerate.disabled = true;
-
+  gridEl.innerHTML = ''; downloadWrap.style.display = 'none'; progressEl.style.display = 'block'; btnGenerate.disabled = true;
   batchResults = [];
 
   let captureHost = document.getElementById('batch-capture-host');
   if(!captureHost){
-    captureHost = document.createElement('div');
-    captureHost.id = 'batch-capture-host';
-    captureHost.style.position = 'fixed';
-    captureHost.style.left = '-9999px';
-    captureHost.style.top = '0';
-    captureHost.style.width = '540px'; // Matching the max-width
+    captureHost = document.createElement('div'); captureHost.id = 'batch-capture-host';
+    captureHost.style.position = 'fixed'; captureHost.style.left = '-9999px'; captureHost.style.top = '0'; captureHost.style.width = '540px';
     document.body.appendChild(captureHost);
   }
 
   for(let i = 0; i < commentsRaw.length; i++){
-    // UI Loading Updates
     const pct = Math.round(((i) / commentsRaw.length) * 100);
-    percentText.textContent = `${pct}%`;
-    fillBar.style.width = `${pct}%`;
-    statusText.textContent = `Generando ${i + 1} de ${commentsRaw.length}...`;
+    percentText.textContent = `${pct}%`; fillBar.style.width = `${pct}%`; statusText.textContent = `Generando ${i + 1} de ${commentsRaw.length}...`;
 
-    const username = usernamesRaw.length > 0
-      ? usernamesRaw[i % usernamesRaw.length]
-      : randomUsername();
-
+    const username = usernamesRaw.length > 0 ? usernamesRaw[i % usernamesRaw.length] : randomUsername();
     const photoDataUrl = i < photosShuffled.length ? photosShuffled[i] : null;
     const avatarColor = AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)];
 
@@ -981,15 +855,9 @@ async function generateBatch(){
     }
 
     const cardData = {
-      username: username,
-      verified: Math.random() * 100 < verifiedPct,
-      comment: commentsRaw[i],
-      time: `${randomInt(timeMin, timeMax)}${timeUnit}`,
-      likes: String(randomInt(likesMin, likesMax)),
-      avatarColor: avatarColor,
-      photoDataUrl: photoDataUrl,
-      tkHeartRed: Math.random() < 0.5,
-      fbReactions: fbReactionsForCard
+      username: username, verified: Math.random() * 100 < verifiedPct, comment: commentsRaw[i],
+      time: `${randomInt(timeMin, timeMax)}${timeUnit}`, likes: String(randomInt(likesMin, likesMax)),
+      avatarColor: avatarColor, photoDataUrl: photoDataUrl, tkHeartRed: Math.random() < 0.5, fbReactions: fbReactionsForCard, theme: state.theme
     };
 
     let html;
@@ -997,51 +865,29 @@ async function generateBatch(){
     else if(batchPlatform === 'instagram') html = renderInstagram(cardData);
     else html = renderFacebook(cardData);
 
-    // Envolvemos en export-frame para batch también
     captureHost.innerHTML = `<div class="export-frame" id="batch-frame-inner" style="background:transparent;">${html}</div>`;
-    
-    // Yield al Main Thread para evitar Freeze en batch largos
     await new Promise(r => setTimeout(r, 10));
 
     try {
       const targetElement = document.getElementById('batch-frame-inner');
-      const canvas = await html2canvas(targetElement, { 
-        backgroundColor: null, 
-        scale: 2 // Optimizado para batch
-      });
-      const dataUrl = canvas.toDataURL('image/png');
-      batchResults.push({ dataUrl, index: i + 1 });
-
-      const thumb = document.createElement('img');
-      thumb.src = dataUrl;
-      thumb.style.width = '100%';
-      thumb.style.borderRadius = '8px';
-      thumb.style.border = '1px solid var(--border)';
-      thumb.style.background = '#f0f0f0';
+      const canvas = await html2canvas(targetElement, { backgroundColor: null, scale: 2 });
+      const dataUrl = canvas.toDataURL('image/png'); batchResults.push({ dataUrl, index: i + 1 });
+      const thumb = document.createElement('img'); thumb.src = dataUrl; thumb.style.width = '100%'; thumb.style.borderRadius = '8px'; thumb.style.border = '1px solid var(--border)'; thumb.style.background = '#f0f0f0';
       gridEl.appendChild(thumb);
-    } catch(err) {
-      console.error(`Error generando comentario ${i+1}:`, err);
-      // No bloqueamos, continua el siguiente
-    }
+    } catch(err) { console.error(`Error generando comentario ${i+1}:`, err); }
   }
 
-  // Loader completado
-  fillBar.style.width = '100%';
-  percentText.textContent = `100%`;
-  statusText.textContent = `Listo: ${batchResults.length} imágenes generadas`;
+  fillBar.style.width = '100%'; percentText.textContent = `100%`; statusText.textContent = `Listo: ${batchResults.length} imágenes generadas`;
   document.getElementById('batch-progress-text').innerHTML = '✅ Lote completado';
-  
-  downloadWrap.style.display = 'flex';
-  btnGenerate.disabled = false;
+  downloadWrap.style.display = 'flex'; btnGenerate.disabled = false;
 }
+
+document.getElementById('btn-batch-generate').onclick = generateBatch;
 
 document.getElementById('btn-batch-download-zip').onclick = async () => {
   if(batchResults.length === 0) return;
   const btn = document.getElementById('btn-batch-download-zip');
-  const originalText = btn.textContent;
-  btn.textContent = 'Empaquetando...';
-  btn.disabled = true;
-
+  const originalText = btn.textContent; btn.textContent = 'Empaquetando...'; btn.disabled = true;
   try {
     const zip = new JSZip();
     batchResults.forEach(r => {
@@ -1049,17 +895,9 @@ document.getElementById('btn-batch-download-zip').onclick = async () => {
       zip.file(`comentario-${batchPlatform}-${String(r.index).padStart(2,'0')}.png`, base64, { base64: true });
     });
     const blob = await zip.generateAsync({ type: 'blob' });
-    const link = document.createElement('a');
-    link.download = `comentarios-${batchPlatform}-lote-${Date.now()}.zip`;
-    link.href = URL.createObjectURL(blob);
-    link.click();
-  } catch(err) {
-    console.error(err);
-    alert('Error al crear el archivo ZIP.');
-  } finally {
-    btn.textContent = originalText;
-    btn.disabled = false;
-  }
+    const link = document.createElement('a'); link.download = `comentarios-${batchPlatform}-lote-${Date.now()}.zip`;
+    link.href = URL.createObjectURL(blob); link.click();
+  } catch(err) { alert('Error al crear el archivo ZIP.'); } finally { btn.textContent = originalText; btn.disabled = false; }
 };
 
 render();

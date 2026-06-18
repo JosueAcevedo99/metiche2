@@ -87,7 +87,7 @@
     padding: 24px; display: inline-block; max-width: 540px; width: 100%;
   }
   .tk-text, .ig-text, .fb-text {
-    white-space: pre-wrap; overflow-wrap: break-word; word-break: break-word;
+    overflow-wrap: break-word; word-break: break-word;
   }
 
   /* ---- Card Polish ---- */
@@ -584,7 +584,9 @@ function renderFacebook(data){
 }
 
 function escapeHTML(str){
-  const d = document.createElement('div'); d.textContent = str; return d.innerHTML;
+  const d = document.createElement('div'); 
+  d.textContent = str; 
+  return d.innerHTML.replace(/\n/g, '<br>');
 }
 
 function render(){

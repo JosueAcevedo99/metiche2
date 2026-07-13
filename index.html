@@ -179,6 +179,9 @@
   .comment-media{ margin-top:8px; width:min(280px, 100%); border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); }
   .comment-media img{ display:block; width:100%; height:auto; max-height:320px; object-fit:contain; }
   .fb-comment .comment-media{ border-radius:12px; }
+  .image-size-control{ display:flex; align-items:center; gap:10px; margin-top:8px; }
+  .image-size-control input[type=range]{ flex:1; min-width:0; accent-color:var(--accent); cursor:pointer; }
+  .image-size-value{ min-width:44px; text-align:right; font-size:12px; font-weight:600; color:var(--text-muted); }
 
   /* Batch Gallery Styles */
   .batch-gallery { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
@@ -292,6 +295,11 @@ multilínea ahora soportado 🎉</textarea>
         <button type="button" class="photo-remove" id="btn-remove-comment-image" style="display:none;">Quitar imagen</button>
         <span id="comment-image-paste-hint" style="font-size:12px; color:var(--text-muted);">Haz clic aquí y usa Ctrl+V, o arrastra una imagen</span>
       </div>
+      <div class="image-size-control">
+        <label for="inp-comment-image-size" style="margin:0; white-space:nowrap;">Tamaño</label>
+        <input type="range" id="inp-comment-image-size" min="25" max="100" step="5" value="100">
+        <output id="comment-image-size-value" class="image-size-value">100%</output>
+      </div>
     </div>
 
     <div class="row">
@@ -365,6 +373,11 @@ multilínea ahora soportado 🎉</textarea>
         <div id="batch-comment-image-gallery" class="batch-media-gallery"></div>
 
         <p class="hint" style="text-align:left; margin-top:6px;">Imagen 1 se adjunta al Comentario 1, Imagen 2 al Comentario 2, etc. Haz clic en esta zona para pegar con Ctrl+V.</p>
+        <div class="image-size-control">
+          <label for="batch-comment-image-size" style="margin:0; white-space:nowrap;">Tamaño de todas</label>
+          <input type="range" id="batch-comment-image-size" min="25" max="100" step="5" value="100">
+          <output id="batch-comment-image-size-value" class="image-size-value">100%</output>
+        </div>
       </div>
 
       <div class="field">
@@ -528,6 +541,7 @@ let state = {
   avatarColor: AVATAR_COLORS[0],
   photoDataUrl: null,
   commentImageDataUrl: null,
+  commentImageSize: 100,
   tkHeartRed: false,
   fbReactions: [
     { key: 'like', label: 'Me gusta', checked: true },
@@ -549,7 +563,9 @@ function initials(name){ return name.replace(/^@/,'').trim().slice(0,2).toUpperC
 
 function commentImageHTML(data, platform){
   if(!data.commentImageDataUrl) return '';
-  return `<div class="comment-media comment-media-${platform}"><img src="${data.commentImageDataUrl}" alt="Imagen adjunta al comentario"></div>`;
+  const sizePct = Math.min(100, Math.max(25, Number(data.commentImageSize) || 100));
+  const widthPx = Math.round(280 * sizePct / 100);
+  return `<div class="comment-media comment-media-${platform}" style="width:min(${widthPx}px, 100%);"><img src="${data.commentImageDataUrl}" alt="Imagen adjunta al comentario"></div>`;
 }
 
 function renderTikTok(data){
@@ -739,6 +755,11 @@ setTimeout(() => autoResizeTextarea(batchComments), 10);
 
 document.getElementById('inp-time').addEventListener('input', e => { state.time = e.target.value; render(); });
 document.getElementById('inp-likes').addEventListener('input', e => { state.likes = e.target.value; render(); });
+document.getElementById('inp-comment-image-size').addEventListener('input', e => {
+  state.commentImageSize = Number(e.target.value);
+  document.getElementById('comment-image-size-value').textContent = `${state.commentImageSize}%`;
+  render();
+});
 
 /* =========================================================
    NUEVA LÓGICA DE GALERÍA BATCH (DRAG & DROP, ELIMINAR)
@@ -746,10 +767,16 @@ document.getElementById('inp-likes').addEventListener('input', e => { state.like
 let batchPlatform = 'tiktok';
 let batchPhotos = [];
 let batchCommentImages = [];
+let batchCommentImageSize = 100;
 let batchResults = [];
 let draggedIndex = null;
 let draggedCommentImageIndex = null;
 let activePasteTarget = 'single-avatar';
+
+document.getElementById('batch-comment-image-size').addEventListener('input', e => {
+  batchCommentImageSize = Number(e.target.value);
+  document.getElementById('batch-comment-image-size-value').textContent = `${batchCommentImageSize}%`;
+});
 
 function renderBatchGallery() {
   const gallery = document.getElementById('batch-photo-gallery');
@@ -1152,6 +1179,7 @@ async function generateBatch(){
       username: username, verified: Math.random() * 100 < verifiedPct, comment: commentsRaw[i],
       time: `${randomInt(timeMin, timeMax)}${timeUnit}`, likes: String(randomInt(likesMin, likesMax)),
       avatarColor: avatarColor, photoDataUrl: photoDataUrl, commentImageDataUrl: commentImageDataUrl,
+      commentImageSize: batchCommentImageSize,
       tkHeartRed: Math.random() < 0.5, fbReactions: fbReactionsForCard, theme: state.theme
     };
 

@@ -160,11 +160,25 @@
     display:flex; align-items:center; justify-content:center;
     font-size:14px; color:#777; flex-shrink:0; transition: all 0.2s;
   }
-  .photo-row{ display:flex; align-items:center; gap:10px; margin-top:8px; padding: 8px; border-radius: 8px; border: 1.5px dashed transparent; transition: all 0.2s; }
+  .photo-row{ display:flex; align-items:center; gap:10px; margin-top:8px; padding: 8px; border-radius: 8px; border: 1.5px dashed transparent; transition: all 0.2s; outline:none; }
   .photo-row.dragover { border-color: var(--accent) !important; background: #e8f0fe !important; }
+  .photo-row.paste-active { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(8,102,255,0.10); }
   .photo-preview{ width:38px; height:38px; border-radius:50%; overflow:hidden; flex-shrink:0; border:1px solid var(--border); }
   .photo-preview img{ width:100%; height:100%; object-fit:cover; }
+  .comment-image-preview{ width:72px; height:48px; border-radius:8px; overflow:hidden; flex-shrink:0; border:1px solid var(--border); background:#f0f0f0; }
+  .comment-image-preview img{ width:100%; height:100%; object-fit:cover; }
+  .media-upload-btn{
+    width:72px; height:48px; border-radius:8px; cursor:pointer;
+    border:1.5px dashed #9a9a9a; background:#fafafa;
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; color:#777; flex-shrink:0; transition:all .2s;
+  }
   .photo-remove{ font-size:12px; color:#d33; cursor:pointer; font-weight:600; background:none; border:none; padding:0; }
+
+  /* Imagen adjunta dentro del comentario */
+  .comment-media{ margin-top:8px; width:min(280px, 100%); border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); }
+  .comment-media img{ display:block; width:100%; height:auto; max-height:320px; object-fit:contain; }
+  .fb-comment .comment-media{ border-radius:12px; }
 
   /* Batch Gallery Styles */
   .batch-gallery { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
@@ -187,6 +201,14 @@
     background: var(--text); color: #fff; font-size: 9px; font-weight: bold;
     padding: 2px 6px; border-radius: 8px;
   }
+  .batch-media-gallery{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .batch-media-thumb-wrap{
+    position:relative; width:72px; height:52px; border-radius:9px;
+    border:2px solid transparent; cursor:grab; transition:transform .2s;
+  }
+  .batch-media-thumb-wrap:active{ cursor:grabbing; transform:scale(1.04); }
+  .batch-media-thumb-wrap.drag-over{ border-color:var(--accent); }
+  .batch-media-thumb-wrap img{ width:100%; height:100%; object-fit:cover; border-radius:7px; border:1px solid var(--border); background:#f0f0f0; }
 
   /* Progress UI */
   .progress-container { margin-bottom: 14px; display: none; }
@@ -259,6 +281,19 @@
 multilínea ahora soportado 🎉</textarea>
     </div>
 
+    <div class="field">
+      <label>Imagen del comentario (opcional)</label>
+      <div class="photo-row" id="comment-image-dropzone" tabindex="0">
+        <div class="comment-image-preview" id="comment-image-preview" style="display:none;">
+          <img id="comment-image-preview-img" src="" alt="">
+        </div>
+        <label for="inp-comment-image" class="media-upload-btn" id="comment-image-upload-label">+</label>
+        <input type="file" id="inp-comment-image" accept="image/*" style="display:none;">
+        <button type="button" class="photo-remove" id="btn-remove-comment-image" style="display:none;">Quitar imagen</button>
+        <span id="comment-image-paste-hint" style="font-size:12px; color:var(--text-muted);">Haz clic aquí y usa Ctrl+V, o arrastra una imagen</span>
+      </div>
+    </div>
+
     <div class="row">
       <div class="field">
         <label for="inp-time">Tiempo</label>
@@ -271,8 +306,8 @@ multilínea ahora soportado 🎉</textarea>
     </div>
 
     <div class="field">
-      <label>Foto de perfil (Haz clic, Drag & Drop o Ctrl+V)</label>
-      <div class="photo-row" id="photo-dropzone">
+      <label>Foto de perfil (haz clic en esta zona para usar Ctrl+V)</label>
+      <div class="photo-row" id="photo-dropzone" tabindex="0">
         <div class="photo-preview" id="photo-preview-circle" style="display:none;">
           <img id="photo-preview-img" src="" alt="">
         </div>
@@ -308,7 +343,7 @@ multilínea ahora soportado 🎉</textarea>
     <div class="panel">
       <div class="field">
         <label>Fotos de perfil (Sube, arrastra y ordena para vincular al comentario)</label>
-        <div style="display:flex; gap:8px; align-items:center;" class="photo-row" id="batch-photo-dropzone">
+        <div style="display:flex; gap:8px; align-items:center;" class="photo-row" id="batch-photo-dropzone" tabindex="0">
           <label for="batch-photos" class="upload-btn" style="width:38px;height:38px;font-size:16px; flex-shrink:0;">+</label>
           <input type="file" id="batch-photos" accept="image/*" multiple style="display:none;">
           <span id="batch-photos-count" style="font-size:13px; color:var(--text-muted);">Sube fotos para vincularlas 1 a 1</span>
@@ -317,6 +352,19 @@ multilínea ahora soportado 🎉</textarea>
         <div id="batch-photo-gallery" class="batch-gallery"></div>
         
         <p class="hint" style="text-align:left; margin-top:6px;">El orden importa: Foto 1 se usará con Comentario 1 y Nombre 1. Arrástralas para ordenarlas.</p>
+      </div>
+
+      <div class="field">
+        <label>Imágenes de los comentarios (opcional, vinculación 1 a 1)</label>
+        <div style="display:flex; gap:8px; align-items:center;" class="photo-row" id="batch-comment-image-dropzone" tabindex="0">
+          <label for="batch-comment-images" class="media-upload-btn" style="flex-shrink:0;">+</label>
+          <input type="file" id="batch-comment-images" accept="image/*" multiple style="display:none;">
+          <span id="batch-comment-images-count" style="font-size:13px; color:var(--text-muted);">Sube imágenes para vincularlas 1 a 1</span>
+        </div>
+
+        <div id="batch-comment-image-gallery" class="batch-media-gallery"></div>
+
+        <p class="hint" style="text-align:left; margin-top:6px;">Imagen 1 se adjunta al Comentario 1, Imagen 2 al Comentario 2, etc. Haz clic en esta zona para pegar con Ctrl+V.</p>
       </div>
 
       <div class="field">
@@ -479,6 +527,7 @@ let state = {
   likes: '1500',
   avatarColor: AVATAR_COLORS[0],
   photoDataUrl: null,
+  commentImageDataUrl: null,
   tkHeartRed: false,
   fbReactions: [
     { key: 'like', label: 'Me gusta', checked: true },
@@ -497,6 +546,11 @@ function avatarHTML(data){
 }
 
 function initials(name){ return name.replace(/^@/,'').trim().slice(0,2).toUpperCase(); }
+
+function commentImageHTML(data, platform){
+  if(!data.commentImageDataUrl) return '';
+  return `<div class="comment-media comment-media-${platform}"><img src="${data.commentImageDataUrl}" alt="Imagen adjunta al comentario"></div>`;
+}
 
 function renderTikTok(data){
   data = data || state;
@@ -517,6 +571,7 @@ function renderTikTok(data){
     <div class="tk-body">
       <div class="tk-name" style="color:${metaColor};">${escapeHTML(data.username)}${v}</div>
       <div class="tk-text" style="color:${textColor};">${escapeHTML(data.comment)}</div>
+      ${commentImageHTML(data, 'tiktok')}
       <div class="tk-meta" style="color:${metaColor};">
         <span class="tk-time">${escapeHTML(data.time)}</span>
         <span class="tk-reply">Responder</span>
@@ -550,6 +605,7 @@ function renderInstagram(data){
         <span class="ig-time-top" style="color:${metaColor};">${escapeHTML(data.time)}</span>
       </div>
       <div class="ig-text" style="color:${textColor};">${escapeHTML(data.comment)}</div>
+      ${commentImageHTML(data, 'instagram')}
       <div class="ig-meta" style="color:${metaColor};">
         <span class="ig-reply">Responder</span>
       </div>
@@ -586,6 +642,7 @@ function renderFacebook(data){
           <span class="fb-name" style="color:${textColor};">${escapeHTML(data.username)}</span>${data.verified ? verifiedBadgeSVG : ''}
         </div>
         <div class="fb-text" style="color:${textColor};">${escapeHTML(data.comment)}</div>
+        ${commentImageHTML(data, 'facebook')}
       </div>
       <div class="fb-meta" style="color:${metaColor};">
         <span class="fb-time-inline" style="margin-right: 6px;">${escapeHTML(data.time)}</span>
@@ -604,6 +661,18 @@ function escapeHTML(str){
   const d = document.createElement('div'); 
   d.textContent = str; 
   return d.innerHTML.replace(/\n/g, '<br>');
+}
+
+function waitForImages(container){
+  if(!container) return Promise.resolve();
+  const images = Array.from(container.querySelectorAll('img'));
+  return Promise.all(images.map(img => {
+    if(img.complete) return Promise.resolve();
+    return new Promise(resolve => {
+      img.addEventListener('load', resolve, { once:true });
+      img.addEventListener('error', resolve, { once:true });
+    });
+  }));
 }
 
 function render(){
@@ -675,9 +744,12 @@ document.getElementById('inp-likes').addEventListener('input', e => { state.like
    NUEVA LÓGICA DE GALERÍA BATCH (DRAG & DROP, ELIMINAR)
 ========================================================= */
 let batchPlatform = 'tiktok';
-let batchPhotos = []; 
-let batchResults = []; 
+let batchPhotos = [];
+let batchCommentImages = [];
+let batchResults = [];
 let draggedIndex = null;
+let draggedCommentImageIndex = null;
+let activePasteTarget = 'single-avatar';
 
 function renderBatchGallery() {
   const gallery = document.getElementById('batch-photo-gallery');
@@ -715,6 +787,7 @@ function renderBatchGallery() {
         // Mover el elemento en el array
         const item = batchPhotos.splice(draggedIndex, 1)[0];
         batchPhotos.splice(index, 0, item);
+        draggedIndex = null;
         renderBatchGallery();
       }
     };
@@ -733,6 +806,66 @@ function renderBatchGallery() {
     delBtn.onclick = () => {
       batchPhotos.splice(index, 1);
       renderBatchGallery();
+    };
+
+    wrap.appendChild(img);
+    wrap.appendChild(badge);
+    wrap.appendChild(delBtn);
+    gallery.appendChild(wrap);
+  });
+}
+
+function renderBatchCommentImageGallery() {
+  const gallery = document.getElementById('batch-comment-image-gallery');
+  const counter = document.getElementById('batch-comment-images-count');
+  gallery.innerHTML = '';
+
+  if(batchCommentImages.length === 0){
+    counter.textContent = 'Sube imágenes para vincularlas 1 a 1';
+    return;
+  }
+
+  counter.textContent = `${batchCommentImages.length} imagen${batchCommentImages.length === 1 ? '' : 'es'} cargada${batchCommentImages.length === 1 ? '' : 's'}`;
+
+  batchCommentImages.forEach((imageUrl, index) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'batch-media-thumb-wrap';
+    wrap.draggable = true;
+
+    wrap.ondragstart = e => {
+      draggedCommentImageIndex = index;
+      e.dataTransfer.effectAllowed = 'move';
+    };
+    wrap.ondragover = e => {
+      e.preventDefault();
+      wrap.classList.add('drag-over');
+    };
+    wrap.ondragleave = () => wrap.classList.remove('drag-over');
+    wrap.ondrop = e => {
+      e.preventDefault();
+      wrap.classList.remove('drag-over');
+      if(draggedCommentImageIndex !== null && draggedCommentImageIndex !== index){
+        const item = batchCommentImages.splice(draggedCommentImageIndex, 1)[0];
+        batchCommentImages.splice(index, 0, item);
+        draggedCommentImageIndex = null;
+        renderBatchCommentImageGallery();
+      }
+    };
+
+    const img = document.createElement('img');
+    img.src = imageUrl;
+
+    const badge = document.createElement('div');
+    badge.className = 'batch-index-badge';
+    badge.textContent = `#${index + 1}`;
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'batch-thumb-delete';
+    delBtn.innerHTML = '✕';
+    delBtn.title = 'Eliminar imagen del comentario';
+    delBtn.onclick = () => {
+      batchCommentImages.splice(index, 1);
+      renderBatchCommentImageGallery();
     };
 
     wrap.appendChild(img);
@@ -761,13 +894,39 @@ function handleImageFile(file, isBatch = false) {
   reader.readAsDataURL(file);
 }
 
+function handleCommentImageFile(file, isBatch = false) {
+  if(!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    if(!isBatch){
+      state.commentImageDataUrl = ev.target.result;
+      document.getElementById('comment-image-preview-img').src = state.commentImageDataUrl;
+      document.getElementById('comment-image-preview').style.display = 'block';
+      document.getElementById('comment-image-upload-label').style.display = 'none';
+      document.getElementById('btn-remove-comment-image').style.display = 'inline';
+      document.getElementById('comment-image-paste-hint').style.display = 'none';
+      render();
+    } else {
+      batchCommentImages.push(ev.target.result);
+      renderBatchCommentImageGallery();
+    }
+  };
+  reader.onerror = () => alert('Error al leer la imagen del comentario.');
+  reader.readAsDataURL(file);
+}
+
 document.getElementById('inp-photo').addEventListener('change', e => handleImageFile(e.target.files[0], false));
-document.getElementById('batch-photos').addEventListener('change', e => { 
-  Array.from(e.target.files).forEach(f => handleImageFile(f, true)); 
-  e.target.value = ''; // Reset input
+document.getElementById('inp-comment-image').addEventListener('change', e => handleCommentImageFile(e.target.files[0], false));
+document.getElementById('batch-photos').addEventListener('change', e => {
+  Array.from(e.target.files).forEach(f => handleImageFile(f, true));
+  e.target.value = '';
+});
+document.getElementById('batch-comment-images').addEventListener('change', e => {
+  Array.from(e.target.files).forEach(f => handleCommentImageFile(f, true));
+  e.target.value = '';
 });
 
-function setupDragAndDrop(dropzoneId, isBatch) {
+function setupDragAndDrop(dropzoneId, isBatch, imageType = 'avatar') {
   const dropzone = document.getElementById(dropzoneId);
   if(!dropzone) return;
   ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => dropzone.addEventListener(eventName, e => {e.preventDefault(); e.stopPropagation();}, false));
@@ -775,33 +934,79 @@ function setupDragAndDrop(dropzoneId, isBatch) {
   ['dragleave', 'drop'].forEach(eventName => dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover'), false));
   dropzone.addEventListener('drop', e => {
     if(e.dataTransfer.files.length > 0) {
-      if(isBatch) Array.from(e.dataTransfer.files).forEach(f => handleImageFile(f, true));
-      else handleImageFile(e.dataTransfer.files[0], false);
+      const files = Array.from(e.dataTransfer.files);
+      if(imageType === 'comment'){
+        if(isBatch) files.forEach(f => handleCommentImageFile(f, true));
+        else handleCommentImageFile(files[0], false);
+      } else {
+        if(isBatch) files.forEach(f => handleImageFile(f, true));
+        else handleImageFile(files[0], false);
+      }
     }
   }, false);
 }
 
-setupDragAndDrop('photo-dropzone', false);
-setupDragAndDrop('batch-photo-dropzone', true);
+function setActivePasteTarget(target){
+  activePasteTarget = target;
+  document.querySelectorAll('.photo-row').forEach(el => el.classList.remove('paste-active'));
+  const map = {
+    'single-avatar': 'photo-dropzone',
+    'single-comment': 'comment-image-dropzone',
+    'batch-avatar': 'batch-photo-dropzone',
+    'batch-comment': 'batch-comment-image-dropzone'
+  };
+  const el = document.getElementById(map[target]);
+  if(el) el.classList.add('paste-active');
+}
+
+[
+  ['photo-dropzone', 'single-avatar'],
+  ['comment-image-dropzone', 'single-comment'],
+  ['batch-photo-dropzone', 'batch-avatar'],
+  ['batch-comment-image-dropzone', 'batch-comment']
+].forEach(([id, target]) => {
+  const el = document.getElementById(id);
+  el.addEventListener('click', () => setActivePasteTarget(target));
+  el.addEventListener('focus', () => setActivePasteTarget(target));
+});
+
+setupDragAndDrop('photo-dropzone', false, 'avatar');
+setupDragAndDrop('comment-image-dropzone', false, 'comment');
+setupDragAndDrop('batch-photo-dropzone', true, 'avatar');
+setupDragAndDrop('batch-comment-image-dropzone', true, 'comment');
+setActivePasteTarget('single-avatar');
 
 window.addEventListener('paste', e => {
-  const active = document.activeElement;
-  const isText = active.tagName === 'TEXTAREA' || (active.tagName === 'INPUT' && active.type === 'text');
-  if (e.clipboardData && e.clipboardData.items) {
-    for (let i = 0; i < e.clipboardData.items.length; i++) {
-      if (e.clipboardData.items[i].type.indexOf('image') !== -1) {
-        if(isText) e.preventDefault();
-        handleImageFile(e.clipboardData.items[i].getAsFile(), document.getElementById('mode-tab-batch').classList.contains('active'));
-        break;
-      }
-    }
-  }
+  if(!e.clipboardData || !e.clipboardData.items) return;
+  const imageItem = Array.from(e.clipboardData.items).find(item => item.type.indexOf('image') !== -1);
+  if(!imageItem) return;
+
+  e.preventDefault();
+  const file = imageItem.getAsFile();
+  const batchMode = document.getElementById('mode-tab-batch').classList.contains('active');
+  let target = activePasteTarget;
+  if(batchMode && !target.startsWith('batch-')) target = 'batch-avatar';
+  if(!batchMode && !target.startsWith('single-')) target = 'single-avatar';
+
+  if(target.endsWith('comment')) handleCommentImageFile(file, batchMode);
+  else handleImageFile(file, batchMode);
 });
 
 document.getElementById('btn-remove-photo').addEventListener('click', () => {
   state.photoDataUrl = null; document.getElementById('inp-photo').value = '';
   document.getElementById('photo-preview-circle').style.display = 'none';
   document.getElementById('btn-remove-photo').style.display = 'none';
+  render();
+});
+
+document.getElementById('btn-remove-comment-image').addEventListener('click', () => {
+  state.commentImageDataUrl = null;
+  document.getElementById('inp-comment-image').value = '';
+  document.getElementById('comment-image-preview').style.display = 'none';
+  document.getElementById('comment-image-preview-img').src = '';
+  document.getElementById('comment-image-upload-label').style.display = 'flex';
+  document.getElementById('btn-remove-comment-image').style.display = 'none';
+  document.getElementById('comment-image-paste-hint').style.display = 'inline';
   render();
 });
 
@@ -831,6 +1036,7 @@ document.getElementById('btn-download').onclick = async () => {
   const btn = document.getElementById('btn-download');
   const originalText = btn.textContent; btn.textContent = 'Generando...'; btn.disabled = true;
   try {
+    await waitForImages(target);
     const canvas = await html2canvas(target, { backgroundColor: null, scale: 3 });
     const link = document.createElement('a'); link.download = `comentario-${state.platform}-${Date.now()}.png`;
     link.href = canvas.toDataURL('image/png'); link.click();
@@ -843,6 +1049,7 @@ function setModeTab(mode){
   document.getElementById('mode-tab-batch').classList.toggle('active', mode === 'batch');
   document.getElementById('mode-single').style.display = mode === 'single' ? 'block' : 'none';
   document.getElementById('mode-batch').style.display = mode === 'batch' ? 'block' : 'none';
+  setActivePasteTarget(mode === 'batch' ? 'batch-avatar' : 'single-avatar');
 }
 document.getElementById('mode-tab-single').onclick = () => setModeTab('single');
 document.getElementById('mode-tab-batch').onclick = () => setModeTab('batch');
@@ -931,6 +1138,7 @@ async function generateBatch(){
     // EMPAREJAMIENTO 1 A 1 DIRECTO POR ÍNDICE
     const username = (usernamesRaw[i] && usernamesRaw[i].trim() !== '') ? usernamesRaw[i] : randomUsername();
     const photoDataUrl = (batchPhotos.length > i) ? batchPhotos[i] : null;
+    const commentImageDataUrl = (batchCommentImages.length > i) ? batchCommentImages[i] : null;
     const avatarColor = AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)];
 
     let fbReactionsForCard = [];
@@ -943,7 +1151,8 @@ async function generateBatch(){
     const cardData = {
       username: username, verified: Math.random() * 100 < verifiedPct, comment: commentsRaw[i],
       time: `${randomInt(timeMin, timeMax)}${timeUnit}`, likes: String(randomInt(likesMin, likesMax)),
-      avatarColor: avatarColor, photoDataUrl: photoDataUrl, tkHeartRed: Math.random() < 0.5, fbReactions: fbReactionsForCard, theme: state.theme
+      avatarColor: avatarColor, photoDataUrl: photoDataUrl, commentImageDataUrl: commentImageDataUrl,
+      tkHeartRed: Math.random() < 0.5, fbReactions: fbReactionsForCard, theme: state.theme
     };
 
     let html;
@@ -952,10 +1161,11 @@ async function generateBatch(){
     else html = renderFacebook(cardData);
 
     captureHost.innerHTML = `<div class="export-frame" id="batch-frame-inner" style="background:transparent;">${html}</div>`;
-    await new Promise(r => setTimeout(r, 10));
+    const targetElement = document.getElementById('batch-frame-inner');
+    await waitForImages(targetElement);
+    await new Promise(resolve => requestAnimationFrame(() => resolve()));
 
     try {
-      const targetElement = document.getElementById('batch-frame-inner');
       const canvas = await html2canvas(targetElement, { backgroundColor: null, scale: 2 });
       const dataUrl = canvas.toDataURL('image/png'); batchResults.push({ dataUrl, index: i + 1 });
       const thumb = document.createElement('img'); thumb.src = dataUrl; thumb.style.width = '100%'; thumb.style.borderRadius = '8px'; thumb.style.border = '1px solid var(--border)'; thumb.style.background = '#f0f0f0';
